@@ -103,7 +103,6 @@ fi
 
 touch $DATADIR/.init
 chown -R mysql:mysql "$DATADIR"
-sed -i "s/server-id=1/server-id=${SERVER_ID}/" /etc/mysql/percona-xtradb-cluster.conf.d/mysqld.cnf
 echo "mysqlchk 9200/tcp # mysqlchk" >> /etc/services
 
 if [ -z "$DISCOVERY_SERVICE" ]; then
@@ -150,4 +149,4 @@ else
 fi
 
 service xinetd restart
-exec mysqld --user=mysql --wsrep_cluster_name=$CLUSTER_NAME --wsrep_cluster_address="gcomm://$cluster_join" --wsrep_sst_method=xtrabackup-v2 --wsrep_sst_auth="xtrabackup:$XTRABACKUP_PASSWORD" --wsrep_node_address="$ipaddr" --wsrep_provider=/usr/lib/galera3/libgalera_smm.so $CMDARG
+exec mysqld --user=mysql --wsrep_cluster_name=$CLUSTER_NAME --wsrep_cluster_address="gcomm://$cluster_join" --wsrep_sst_method=xtrabackup-v2 --wsrep_sst_auth="xtrabackup:$XTRABACKUP_PASSWORD" --wsrep_node_address="$ipaddr" --wsrep_provider=/usr/lib/galera3/libgalera_smm.so --server-id=${SERVER_ID} $CMDARG
