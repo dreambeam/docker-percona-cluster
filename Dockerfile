@@ -9,7 +9,7 @@ ENV SERVER_ID 1
 
 RUN \
     apt-get update && \
-    apt-get install -y --no-install-recommends apt-transport-https ca-certificates pwgen wget xinetd curl jq && \
+    apt-get install -y --no-install-recommends apt-transport-https ca-certificates pwgen vim wget xinetd curl jq && \
     wget https://repo.percona.com/apt/percona-release_${PERCONA_RELEASE_VERSION}.xenial_all.deb && \
     dpkg -i percona-release_${PERCONA_RELEASE_VERSION}.xenial_all.deb && \
     rm -rf percona-release_${PERCONA_RELEASE_VERSION}.xenial_all.deb && \
