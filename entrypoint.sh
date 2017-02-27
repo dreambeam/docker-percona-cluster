@@ -61,7 +61,6 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
 CREATE USER 'xtrabackup'@'localhost' IDENTIFIED BY '$XTRABACKUP_PASSWORD';
 GRANT RELOAD,PROCESS,LOCK TABLES,REPLICATION CLIENT ON *.* TO 'xtrabackup'@'localhost';
 GRANT PROCESS,REPLICATION CLIENT ON *.* TO monitor@'%' IDENTIFIED BY 'monitor';
-GRANT PROCESS ON *.* TO clustercheckuser@'localhost' IDENTIFIED BY 'clustercheckpassword!';
 DROP DATABASE IF EXISTS test;
 FLUSH PRIVILEGES;
 EOSQL
@@ -104,6 +103,7 @@ fi
 touch $DATADIR/init.ok
 chown -R mysql:mysql "$DATADIR"
 echo "mysqlchk 9200/tcp # mysqlchk" >> /etc/services
+sed -i "s/= UNLIMITED/= UNLIMITED\n        server_args     = monitor monitor 1/" /etc/xinetd.d/mysqlchk
 
 if [ -z "$DISCOVERY_SERVICE" ]; then
     cluster_join=$CLUSTER_JOIN
